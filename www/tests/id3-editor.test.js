@@ -1,7 +1,4 @@
-import { TextDecoder, TextEncoder } from 'util';
-globalThis.TextDecoder = TextDecoder;
-globalThis.TextEncoder = TextEncoder;
-
+import { describe, it, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
 
@@ -18,20 +15,14 @@ describe('Reading a tag', () => {
     const { TagController } = await import('id3-rw');
     const mp3Buffer = fs.readFileSync(mp3);
     const uint8Array = new Uint8Array(mp3Buffer);
-    let tagController;
-    try {
-      tagController = TagController.from(uint8Array);
-      const metadata = tagController.getMetadata();
-      const extractedMetadata = {
-        artist: metadata.artist,
-        title: metadata.title,
-        album: metadata.album,
-      };
-      expect(extractedMetadata).toEqual(expectedMetadata);
-    } finally {
-      if (tagController) {
-        tagController.free();
-      }
-    }
+    const tagController = TagController.from(uint8Array);
+    const metadata = tagController.getMetadata();
+    const extractedMetadata = {
+      artist: metadata.artist,
+      title: metadata.title,
+      album: metadata.album,
+    };
+    expect(extractedMetadata).toEqual(expectedMetadata);
+    tagController.free();
   });
 });

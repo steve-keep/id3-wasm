@@ -1,26 +1,26 @@
-
-jest.setTimeout(30000)
+import { describe, it, expect } from 'vitest';
+import { chromium } from 'playwright';
 
 describe('README', () => {
   it('should not have any broken links', async () => {
-    expect.assertions(1)
-    await page.goto('http://localhost:8080/', { waitUntil: 'networkidle0' })
-    const selector = 'a'
-    const links = await page.$$eval(selector, as => as.map(a => a.href))
-    const workingLinks = (await Promise.all(links.map(async (link) => {
-      const newPage = await browser.newPage()
-      let isWorking = true
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+    await page.goto('http://localhost:8080/');
+
+    const links = await page.$$eval('a', (anchors) =>
+      anchors.map((a) => a.href)
+    );
+
+    for (const link of links) {
+      const newPage = await browser.newPage();
       try {
-        const response = await newPage.goto(link, { waitUntil: 'networkidle0' })
-        if (response.status() >= 400) {
-          isWorking = false
-        }
-      } catch (e) {
-        isWorking = false
+        const response = await newPage.goto(link);
+        expect(response.status()).toBeLessThan(400);
+      } finally {
+        await newPage.close();
       }
-      await newPage.close()
-      return isWorking
-    }))).every(isWorking => isWorking)
-    expect(workingLinks).toBe(true)
-  })
-})
+    }
+
+    await browser.close();
+  });
+});
