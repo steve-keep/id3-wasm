@@ -1,13 +1,13 @@
 # id3-rw
 Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.
 
-![Test](https://github.com/trustedtomato/id3-rw/workflows/Test/badge.svg?branch=master)
-![GitHub Pages](https://github.com/trustedtomato/id3-rw/workflows/GitHub%20Pages/badge.svg?event=push)
+![Test](https://github.com/steve-keep/id3-rw/workflows/Test/badge.svg?branch=master)
+![GitHub Pages](https://github.com/steve-keep/id3-rw/workflows/GitHub%20Pages/badge.svg?event=push)
 
-![Screenshot of id3-rw in action.](https://raw.githubusercontent.com/trustedtomato/id3-rw/master/demo-cropped.gif)
+![Screenshot of id3-rw in action.](https://raw.githubusercontent.com/steve-keep/id3-rw/master/demo-cropped.gif)
 
 ## Demos
-Demos can be found on [id3-rw's website](https://trustedtomato.github.io/id3-rw/).
+Demos can be found on [id3-rw's website](https://steve-keep.github.io/id3-rw/).
 
 ## Usage
 
@@ -65,7 +65,7 @@ await fetch('https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_
 ```
 
 ## API
-See [generated docs](https://trustedtomato.github.io/id3-rw/docs/).
+See [generated docs](https://steve-keep.github.io/id3-rw/docs/).
 
 ## Contributing
 Clone this repository. You should setup & build the Rust project by running `make setup` and `make build`.

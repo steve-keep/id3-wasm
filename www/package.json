@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rustwasm/create-wasm-app.git"
+    "url": "git+https://github.com/steve-keep/id3-rw.git"
   },
   "keywords": [
     "webassembly",
@@ -21,9 +21,9 @@
     "webpack"
   ],
   "bugs": {
-    "url": "https://github.com/rustwasm/create-wasm-app/issues"
+    "url": "https://github.com/steve-keep/id3-rw/issues"
   },
-  "homepage": "https://github.com/rustwasm/create-wasm-app#readme",
+  "homepage": "https://github.com/steve-keep/id3-rw#readme",
   "dependencies": {
     "id3-rw": "file:../package"
   },
