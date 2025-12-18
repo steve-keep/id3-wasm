@@ -22,5 +22,7 @@ jobs:
       run: make build
     - name: Install website dependencies
       run: cd www && npm install
+    - name: Install Playwright browsers
+      run: cd www && npx playwright install --with-deps
     - name: Run tests
       run: cd www && npm test
