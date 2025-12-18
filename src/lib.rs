@@ -2,7 +2,7 @@ mod utils;
 
 use wasm_bindgen::prelude::*;
 use std::str::FromStr;
-use id3;
+use id3::{self, TagLike};
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -153,6 +153,7 @@ impl Metadata {
             .map(|x| JsValue::from(x.to_owned()))
             .collect()
     }
+    #[wasm_bindgen(getter)]
     pub fn lyrics(&self) -> js_sys::Array {
         self.lyrics
             .iter()
@@ -182,7 +183,8 @@ impl TagController {
         }
     }
     pub fn from(buffer: &[u8]) -> Result<TagController, JsValue> {
-        match id3::Tag::read_from(std::io::Cursor::new(buffer)) {
+        let mut cursor = std::io::Cursor::new(buffer);
+        match id3::Tag::read_from2(&mut cursor) {
             Ok(tag) => {
                 Ok(TagController {
                     tag
@@ -239,7 +241,7 @@ impl TagController {
     #[wasm_bindgen(js_name = setYear)]
     pub fn set_year(&mut self, year: i32) { self.tag.set_year(year) }
     #[wasm_bindgen(js_name = removeYear)]
-    pub fn remove_year(&mut self) { self.tag.remove("TYER") }
+    pub fn remove_year(&mut self) { self.tag.remove("TYER"); }
     /// yyyy-MM-ddTHH:mm:ss
     #[wasm_bindgen(js_name = setDateRecorded)]
     pub fn set_date_recorded(&mut self, timestamp: &str) -> Result<(), JsValue> {
@@ -267,16 +269,17 @@ impl TagController {
     /// Not-in-place method. 
     #[wasm_bindgen(js_name = putTagInto)]
     pub fn put_tag_into(&self, buffer: &[u8]) -> Result<js_sys::Uint8Array, JsValue> {
-        let mut cursor = std::io::Cursor::new(buffer.to_vec());
-        id3::Tag::write_to_with_base(&self.tag, &mut cursor, id3::Version::Id3v24)
-            .map(|_| {
-                js_sys::Uint8Array::from(&cursor.get_ref()[..])
-            })
-            .map_err(to_error)
+        let mut writer = Vec::new();
+        self.tag.write_to(&mut writer, id3::Version::Id3v24).map_err(to_error)?;
+        let mut reader = std::io::Cursor::new(buffer);
+        id3::Tag::skip(&mut reader).map_err(to_error)?;
+        let audio_offset = reader.position() as usize;
+        writer.extend_from_slice(&buffer[audio_offset..]);
+        Ok(js_sys::Uint8Array::from(&writer[..]))
     }
     #[wasm_bindgen(js_name = addLyrics)]
     pub fn add_lyrics(&mut self, lyrics: CommentMetadatum) {
-        self.tag.add_lyrics(id3::frame::Lyrics {
+        self.tag.add_frame(id3::frame::Lyrics {
             description: lyrics.description,
             lang: lyrics.lang,
             text: lyrics.text

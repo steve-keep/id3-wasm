@@ -1,49 +1,25 @@
 {
   "name": "id3-rw",
+  "version": "0.1.0",
   "description": "Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.",
-  "collaborators": [
-    "Tamas Halasi <trusted.tomato@gmail.com>"
-  ],
-  "scripts": {
-    "preversion": "cd .. && git diff --exit-code && git diff --cached --exit-code && make setup && make test",
-    "version": "cd .. && make setup && git add . && git commit -m \"version: Bump version to $npm_package_version \" && git tag -a v$npm_package_version -m \"Bump version to $npm_package_version \"",
-    "postversion": "git push && git push --tags && npm publish",
-    "generateDocs": "typedoc --includeVersion",
-    "kaka": "echo v$npm_package_version",
-    "test": "eslint .",
-    "test:ci": "npm test"
+  "main": "wasm/id3_rw.js",
+  "types": "wasm/id3_rw.d.ts",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steve-keep/id3-rw.git"
   },
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.12.0",
-    "@typescript-eslint/parser": "^4.12.0",
-    "eslint": "^7.17.0",
-    "eslint-config-standard": "^16.0.2",
-    "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.2.1",
-    "typedoc": "^0.20.13",
-    "typescript": "^4.1.3"
-  },
-  "version": "1.0.9",
-  "module": "index.js",
-  "license": "MIT",
-  "sideEffects": false,
   "keywords": [
-    "id3",
-    "read",
-    "write",
-    "audio",
-    "metadata",
-    "id3v2"
+    "webassembly",
+    "wasm",
+    "rust",
+    "id3"
   ],
+  "bugs": {
+    "url": "https://github.com/steve-keep/id3-rw/issues"
+  },
+  "homepage": "https://github.com/steve-keep/id3-rw#readme",
   "files": [
-    "index.js",
-    "index.d.ts",
-    "wasm/id3_rw.js",
-    "wasm/id3_rw.d.ts",
-    "wasm/id3_rw_bg.js",
-    "wasm/id3_rw_bg.wasm",
-    "wasm/id3_rw_bg.wasm.d.ts"
-  ],
-  "dependencies": {}
+    "wasm"
+  ]
 }

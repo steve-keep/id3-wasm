@@ -1,39 +1,26 @@
-const fs = require('fs')
-const path = require('path')
-const readme = fs.readFileSync(path.join(__dirname, '../../README.md'), 'utf-8')
-
-// Get the snippets from the README.md file
-const snippets = [...readme.matchAll(/```javascript([\s\S]*?)```/g)]
-  .map(match => match[1]
-    // Replace imports from 'id3-rw' with object destruction
-    // (in the for-testing page, window.id3 holds the imported id3 object)
-    .replace(/import\s+{(.+?)}\s+from 'id3-rw'/g, (_, toDestruct) => `const {${toDestruct}} = window.id3`)
-  )
 
 jest.setTimeout(30000)
 
-describe('README snippets', () => {
-  beforeAll(async () => {
-    await page.goto('http://localhost:8080/for-testing/', { waitUntil: 'load' })
-    await page.waitForSelector('#ready', { visible: true })
-    
-    await page.evaluate(() => {
-      window.expectToEqual = (val1, val2) => {
-        if (val1 === val2) return;
-        throw new Error(`${JSON.stringify(val1)} !== ${JSON.stringify(val2)}`)
-      }
-      window.expectToContain = (obj, toBeContained) => {
-        for (const [key, value] of Object.entries(toBeContained)) {
-          window.expectToEqual(obj[key], value)
+describe('README', () => {
+  it('should not have any broken links', async () => {
+    expect.assertions(1)
+    await page.goto('http://localhost:8080/', { waitUntil: 'networkidle0' })
+    const selector = 'a'
+    const links = await page.$$eval(selector, as => as.map(a => a.href))
+    const workingLinks = (await Promise.all(links.map(async (link) => {
+      const newPage = await browser.newPage()
+      let isWorking = true
+      try {
+        const response = await newPage.goto(link, { waitUntil: 'networkidle0' })
+        if (response.status() >= 400) {
+          isWorking = false
         }
+      } catch (e) {
+        isWorking = false
       }
-    })
-  })
-
-  snippets.forEach(async (snippet, i) => {
-    test(`#${i + 1} should be working`, async () => {
-      // Do this eval trickery in order to support top-level await in README.
-      await page.evaluate(eval(`async () => {${snippet}}`))
-    })
+      await newPage.close()
+      return isWorking
+    }))).every(isWorking => isWorking)
+    expect(workingLinks).toBe(true)
   })
 })

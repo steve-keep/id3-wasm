@@ -1,0 +1,27 @@
+
+> start
+> webpack-dev-server
+
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: http://localhost:8080/
+<i> [webpack-dev-server] On Your Network (IPv4): http://192.168.0.2:8080/
+<i> [webpack-dev-server] Content not from webpack is served from './' directory
+asset f632ee7cdc7ac058a908.module.wasm 323 KiB [emitted] [immutable]
+asset bundle.js 213 KiB [emitted] (name: main)
+asset package_wasm_id3_rw_js.bundle.js 29.3 KiB [emitted]
+runtime modules 34 KiB 16 modules
+modules by path ./node_modules/ 130 KiB
+  modules by path ./node_modules/webpack-dev-server/client/ 71.8 KiB 16 modules
+  modules by path ./node_modules/webpack/hot/*.js 5.56 KiB 4 modules
+  modules by path ./node_modules/html-entities/dist/esm/*.js 33.5 KiB
+    ./node_modules/html-entities/dist/esm/index.js 4.98 KiB [built] [code generated]
+    + 3 modules
+  ./node_modules/ansi-html-community/index.js 4.16 KiB [built] [code generated]
+  ./node_modules/events/events.js 14.5 KiB [built] [code generated]
+modules by path ../package/wasm/ 22.1 KiB (javascript) 323 KiB (webassembly)
+  ../package/wasm/id3_rw.js 170 bytes [built] [code generated]
+  ../package/wasm/id3_rw_bg.wasm 120 bytes (javascript) 323 KiB (webassembly) [built] [code generated]
+  ../package/wasm/id3_rw_bg.js 21.8 KiB [built] [code generated]
+./index.js 1.79 KiB [built] [code generated]
+webpack 5.104.0 compiled successfully in 2899 ms
+<i> [webpack-dev-server] Gracefully shutting down. To force exit, press ^C again. Please wait...

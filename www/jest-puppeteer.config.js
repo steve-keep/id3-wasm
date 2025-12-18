@@ -1,10 +1,9 @@
 module.exports = {
   launch: {
-    headless: process.env.HEADLESS !== 'false',
-    dumpio: true
+    headless: true,
   },
   server: {
-    command: 'webpack serve',
-    port: 8080
-  }
-}
+    command: 'npm start',
+    port: 8080,
+  },
+};
