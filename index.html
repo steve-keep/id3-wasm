@@ -2,12 +2,39 @@
 <html>
   <head>
     <title>id3-rw demo</title>
+    <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
   </head>
   <body>
     <h1>id3-rw demo</h1>
-    <p>Select an MP3 file to see its metadata.</p>
-    <input type="file" id="file-input" accept=".mp3" />
-    <pre id="metadata-output"></pre>
+    <p>Select a directory to scan for MP3 files.</p>
+    <button id="start-button">Start</button>
+    <div id="timing-output"></div>
+    <table id="metadata-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Artist</th>
+          <th>Album</th>
+          <th>Year</th>
+          <th>Genre</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
     <script src="bundle.js"></script>
   </body>
 </html>
