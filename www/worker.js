@@ -1,27 +1,13 @@
-// The worker will be initialized with the compiled Wasm module from the main thread.
-let id3Module = null;
+import init, * as id3 from 'id3-wasm';
+
+await init();
 
 self.onmessage = async (event) => {
   const { type, payload } = event.data;
 
-  if (type === 'init') {
-    // The wasm-bindgen generated glue code needs to be imported to bootstrap the module.
-// The wasm module is imported by the build tool (Vite).
-    const wasm = await import('id3-wasm');
-    await wasm.default(payload.module);
-    id3Module = wasm;
-    self.postMessage({ type: 'ready' });
-    return;
-  }
-
   if (type === 'process') {
-    if (!id3Module) {
-      self.postMessage({ type: 'error', payload: 'Worker not initialized.' });
-      return;
-    }
-
     const { file, HEAD_CHUNK_SIZE } = payload;
-    const { TagController, hasId3v2Tag } = id3Module;
+    const { TagController, hasId3v2Tag } = id3;
 
     try {
       const head = new Uint8Array(await file.slice(0, HEAD_CHUNK_SIZE).arrayBuffer());
@@ -53,3 +39,5 @@ self.onmessage = async (event) => {
     }
   }
 };
+
+self.postMessage({ type: 'ready' });

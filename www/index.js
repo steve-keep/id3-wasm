@@ -1,6 +1,3 @@
-import wasm from '../package/wasm/id3_rw_bg.wasm?url';
-
-console.log('Wasm module loaded');
 const startButton = document.getElementById('start-button');
 const timingOutput = document.getElementById('timing-output');
 const workerCountOutput = document.getElementById('worker-count-output');
@@ -54,8 +51,6 @@ startButton.addEventListener('click', async () => {
         for (let i = 0; i < numWorkers; i++) {
           const worker = new Worker(new URL('worker.js', import.meta.url));
           workers.push(worker);
-
-          worker.postMessage({ type: 'init', payload: { module: wasm } });
 
           worker.onmessage = (event) => {
             const { type, payload } = event.data;
