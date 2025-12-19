@@ -74,6 +74,3 @@ Now you should be able to access the examples at `localhost:8080`.
 
 If you have any questions, feel free to open an issue!
 
-## Acknowledgement
-This library uses a patched version of the [rust-id3](https://github.com/polyfloyd/rust-id3) library,
-so most of the hard work was done by its developer [polyfloyd](https://github.com/polyfloyd). Thank you!
