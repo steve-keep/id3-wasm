@@ -17,15 +17,16 @@ import('id3-rw').then(({ TagController }) => {
       const startTime = performance.now();
       let fileCount = 0;
 
+      const HEAD_CHUNK_SIZE = 4096; // 4KB
       for await (const entry of directoryHandle.values()) {
         if (entry.kind === 'file' && entry.name.endsWith('.mp3')) {
           fileCount++;
           const file = await entry.getFile();
-          const arrayBuffer = await file.arrayBuffer();
-          const uint8Array = new Uint8Array(arrayBuffer);
+          const head = new Uint8Array(await file.slice(0, HEAD_CHUNK_SIZE).arrayBuffer());
+          const tail = file.size >= 128 ? new Uint8Array(await file.slice(file.size - 128).arrayBuffer()) : null;
           let tagController;
           try {
-            tagController = TagController.from(uint8Array);
+            tagController = TagController.fromPartial(head, tail);
             const metadata = tagController.getMetadata();
 
             const row = document.createElement('tr');
