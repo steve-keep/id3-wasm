@@ -1,6 +1,7 @@
-import init, * as id3 from 'id3-wasm';
+import * as id3 from 'id3-wasm';
 
-await init();
+// The wasm-pack module self-initializes when imported as an ES module.
+// No explicit `init()` call is required.
 
 self.onmessage = async (event) => {
   const { type, payload } = event.data;
