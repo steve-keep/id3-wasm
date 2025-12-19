@@ -1,5 +1,5 @@
 [package]
-name = "id3-rw"
+name = "id3-wasm"
 version = "0.1.0"
 authors = ["Tamas Halasi <trusted.tomato@gmail.com>"]
 edition = "2021"

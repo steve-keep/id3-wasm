@@ -1,13 +1,13 @@
 {
-  "name": "id3-rw",
+  "name": "id3-wasm",
   "version": "0.1.0",
   "description": "Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.",
-  "main": "wasm/id3_rw.js",
-  "types": "wasm/id3_rw.d.ts",
+  "main": "wasm/id3_wasm.js",
+  "types": "wasm/id3_wasm.d.ts",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/steve-keep/id3-rw.git"
+    "url": "git+https://github.com/steve-keep/id3-wasm.git"
   },
   "keywords": [
     "webassembly",
@@ -16,9 +16,9 @@
     "id3"
   ],
   "bugs": {
-    "url": "https://github.com/steve-keep/id3-rw/issues"
+    "url": "https://github.com/steve-keep/id3-wasm/issues"
   },
-  "homepage": "https://github.com/steve-keep/id3-rw#readme",
+  "homepage": "https://github.com/steve-keep/id3-wasm#readme",
   "files": [
     "wasm"
   ]

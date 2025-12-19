@@ -12,7 +12,7 @@ const expectedMetadata = {
 
 describe('Reading a tag', () => {
   it('should extract the correct text metadata', async () => {
-    const { TagController } = await import('id3-rw');
+    const { TagController } = await import('id3-wasm');
     const mp3Buffer = fs.readFileSync(mp3);
     const uint8Array = new Uint8Array(mp3Buffer);
     const tagController = TagController.from(uint8Array);

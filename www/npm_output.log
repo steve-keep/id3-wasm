@@ -8,9 +8,9 @@
 <i> [webpack-dev-server] Content not from webpack is served from './' directory
 assets by path *.js 243 KiB
   asset bundle.js 214 KiB [emitted] (name: main)
-  asset package_wasm_id3_rw_js.bundle.js 29.3 KiB [emitted]
-asset 582b4e911bf480a4e831.module.wasm 329 KiB [emitted] [immutable]
-asset index.html 811 bytes [emitted] [from: index.html] [copied]
+  asset package_wasm_id3_wasm_js.bundle.js 29.4 KiB [emitted]
+asset 13c8e3e2a198d8381c6b.module.wasm 330 KiB [emitted] [immutable]
+asset index.html 815 bytes [emitted] [from: index.html] [copied]
 runtime modules 34 KiB 16 modules
 modules by path ./node_modules/ 130 KiB
   modules by path ./node_modules/webpack-dev-server/client/ 71.8 KiB 16 modules
@@ -20,19 +20,9 @@ modules by path ./node_modules/ 130 KiB
     + 3 modules
   ./node_modules/ansi-html-community/index.js 4.16 KiB [built] [code generated]
   ./node_modules/events/events.js 14.5 KiB [built] [code generated]
-modules by path ../package/wasm/ 22.1 KiB (javascript) 329 KiB (webassembly)
-  ../package/wasm/id3_rw.js 170 bytes [built] [code generated]
-  ../package/wasm/id3_rw_bg.wasm 120 bytes (javascript) 329 KiB (webassembly) [built] [code generated]
-  ../package/wasm/id3_rw_bg.js 21.8 KiB [built] [code generated]
+modules by path ../package/wasm/ 22.1 KiB (javascript) 330 KiB (webassembly)
+  ../package/wasm/id3_wasm.js 176 bytes [built] [code generated]
+  ../package/wasm/id3_wasm_bg.wasm 120 bytes (javascript) 330 KiB (webassembly) [built] [code generated]
+  ../package/wasm/id3_wasm_bg.js 21.8 KiB [built] [code generated]
 ./index.js 2.64 KiB [built] [code generated]
-webpack 5.104.0 compiled successfully in 2453 ms
-assets by status 573 KiB [cached] 4 assets
-cached modules 154 KiB (javascript) 329 KiB (webassembly) 34 KiB (runtime) [cached] 46 modules
-webpack 5.104.0 compiled successfully in 112 ms
-assets by status 573 KiB [cached] 4 assets
-cached modules 154 KiB (javascript) 329 KiB (webassembly) 34 KiB (runtime) [cached] 46 modules
-webpack 5.104.0 compiled successfully in 50 ms
-assets by status 573 KiB [cached] 4 assets
-cached modules 154 KiB (javascript) 329 KiB (webassembly) 34 KiB (runtime) [cached] 46 modules
-webpack 5.104.0 compiled successfully in 622 ms
-> [webpack-dev-server] Gracefully shutting down. To force exit, press ^C again. Please wait...
+webpack 5.104.1 compiled successfully in 1731 ms

@@ -1,19 +1,19 @@
-# id3-rw
+# id3-wasm
 Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.
 
-![Test](https://github.com/steve-keep/id3-rw/workflows/Test/badge.svg?branch=master)
-![GitHub Pages](https://github.com/steve-keep/id3-rw/workflows/GitHub%20Pages/badge.svg?event=push)
+![Test](https://github.com/steve-keep/id3-wasm/workflows/Test/badge.svg?branch=master)
+![GitHub Pages](https://github.com/steve-keep/id3-wasm/workflows/GitHub%20Pages/badge.svg?event=push)
 
-![Screenshot of id3-rw in action.](https://raw.githubusercontent.com/steve-keep/id3-rw/master/demo-cropped.gif)
+![Screenshot of id3-wasm in action.](https.raw.githubusercontent.com/steve-keep/id3-wasm/master/demo-cropped.gif)
 
 ## Demos
-Demos can be found on [id3-rw's website](https://steve-keep.github.io/id3-rw/).
+Demos can be found on [id3-wasm's website](https://steve-keep.github.io/id3-wasm/).
 
 ## Usage
 
 ### Getting metadata
 ```javascript
-import { getMetadataFrom } from 'id3-rw'
+import { getMetadataFrom } from 'id3-wasm'
 
 const url = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_picture_by_Florrie_Forde.mp3'
 
@@ -35,7 +35,7 @@ await fetch(url).then(async response => {
 
 ### Modifying audio metadata
 ```javascript
-import { createTagControllerFrom } from 'id3-rw'
+import { createTagControllerFrom } from 'id3-wasm'
 
 await fetch('https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_picture_by_Florrie_Forde.mp3').then(async response => {
   const buffer = new Uint8Array(await response.arrayBuffer())
@@ -65,7 +65,7 @@ await fetch('https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_
 ```
 
 ## API
-See [generated docs](https://steve-keep.github.io/id3-rw/docs/).
+See [generated docs](https://steve-keep.github.io/id3-wasm/docs/).
 
 ## Contributing
 Clone this repository. You should setup & build the Rust project by running `make setup` and `make build`.

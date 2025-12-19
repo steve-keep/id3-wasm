@@ -1,4 +1,4 @@
-import * as id3 from './wasm/id3_rw'
+import * as id3 from './wasm/id3_wasm'
 
 function concatTypedArrays (typedArrays, Type = Uint8Array) {
   const result = new (Type)(typedArrays.reduce((acc, typedArray) => acc + typedArray.byteLength, 0))
@@ -68,4 +68,4 @@ export {
   getMetadataFrom,
   createTagControllerFrom
 }
-export * from './wasm/id3_rw'
+export * from './wasm/id3_wasm'

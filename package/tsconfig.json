@@ -1,6 +1,6 @@
 {
   "typedocOptions": {
-    "name": "id3-rw",
+    "name": "id3-wasm",
     "entryPoints": ["index.d.ts"],
     "out": "../www/dist/docs"
   },

@@ -1,4 +1,4 @@
-import('id3-rw').then(({ TagController }) => {
+import('id3-wasm').then(({ TagController }) => {
   console.log('Wasm module loaded');
   const startButton = document.getElementById('start-button');
   const timingOutput = document.getElementById('timing-output');

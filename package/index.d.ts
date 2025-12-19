@@ -1,5 +1,5 @@
-import { Metadata, TagController } from './wasm/id3_rw'
-export * from './wasm/id3_rw'
+import { Metadata, TagController } from './wasm/id3_wasm'
+export * from './wasm/id3_wasm'
 
 /**
  * Gets the ID3 metadata from the specified buffer or stream.
