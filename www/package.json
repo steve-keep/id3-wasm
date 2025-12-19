@@ -1,19 +1,16 @@
 {
   "type": "module",
   "scripts": {
-    "start": "webpack-dev-server --config webpack.config.cjs",
+    "start": "vite",
     "test": "vitest",
-    "build": "webpack --mode=production --config webpack.config.cjs"
+    "build": "vite build"
   },
   "dependencies": {
     "id3-rw": "file:../package"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^12.0.2",
+    "vite": "^7.3.0",
     "vite-plugin-wasm": "^3.5.0",
-    "vitest": "^4.0.16",
-    "webpack": "^5.91.0",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "vitest": "^4.0.16"
   }
 }
