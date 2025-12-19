@@ -10,6 +10,12 @@ use id3::{self, TagLike};
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
+#[wasm_bindgen(js_name = hasId3v2Tag)]
+pub fn has_id3v2_tag(head: &[u8]) -> bool {
+    let mut cursor = std::io::Cursor::new(head);
+    id3::Tag::is_candidate(&mut cursor).unwrap_or(false)
+}
+
 #[wasm_bindgen]
 pub struct TagController {
     tag: id3::Tag

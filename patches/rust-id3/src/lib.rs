@@ -71,8 +71,9 @@
 
 pub use crate::error::{Error, ErrorKind, Result};
 pub use crate::frame::{Content, Frame, Timestamp};
-pub use crate::stream::tag::Encoder;
-pub use crate::tag::{Tag, Version};
+pub use crate::stream::tag::{Encoder, read_from2};
+pub use crate::tag::{Tag, Version, is_candidate};
+
 
 /// Contains types and methods for operating on ID3 frames.
 pub mod frame;

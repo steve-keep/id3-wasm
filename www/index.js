@@ -1,4 +1,4 @@
-import('id3-rw').then(({ TagController }) => {
+import('id3-rw').then(({ TagController, hasId3v2Tag }) => {
   console.log('Wasm module loaded');
   const startButton = document.getElementById('start-button');
   const timingOutput = document.getElementById('timing-output');
@@ -23,7 +23,10 @@ import('id3-rw').then(({ TagController }) => {
           fileCount++;
           const file = await entry.getFile();
           const head = new Uint8Array(await file.slice(0, HEAD_CHUNK_SIZE).arrayBuffer());
-          const tail = file.size >= 128 ? new Uint8Array(await file.slice(file.size - 128).arrayBuffer()) : null;
+          let tail;
+          if (!hasId3v2Tag(head)) {
+            tail = file.size >= 128 ? new Uint8Array(await file.slice(file.size - 128).arrayBuffer()) : null;
+          }
           let tagController;
           try {
             tagController = TagController.fromPartial(head, tail);

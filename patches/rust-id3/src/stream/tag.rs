@@ -533,3 +533,15 @@ mod tests {
         assert!(tag_read.get("TLEN").is_none());
     }
 }
+
+pub fn read_from2(reader: impl io::Read + io::Seek) -> crate::Result<Tag> {
+    let mut b = io::BufReader::new(reader);
+    let probe = b.fill_buf()?;
+
+    match storage::Format::magic(probe) {
+        Some(storage::Format::Header) | None => decode(b),
+        // AIFF/WAV parsing is disabled for performance reasons.
+        Some(storage::Format::Aiff) => Ok(Tag::new()),
+        Some(storage::Format::Wav) => Ok(Tag::new()),
+    }
+}
