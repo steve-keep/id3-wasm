@@ -2,7 +2,7 @@
   "type": "module",
   "scripts": {
     "start": "vite",
-    "test": "vitest",
+    "test": "VITEST=true vitest",
     "build": "vite build"
   },
   "dependencies": {
