@@ -27,16 +27,16 @@ self.onmessage = async (event) => {
           year: metadata.year || '',
           genre: metadata.genre || '',
         };
-        self.postMessage({ type: 'result', payload: { metadata: simplifiedMetadata } });
+        self.postMessage({ type: 'result', payload: { metadata: simplifiedMetadata, fileName: file.name } });
       } catch (e) {
-        self.postMessage({ type: 'error', payload: `Error processing ${file.name}: ${e.message}` });
+        self.postMessage({ type: 'error', payload: { message: `Error processing ${file.name}: ${e.message}`, fileName: file.name } });
       } finally {
         if (tagController) {
           tagController.free();
         }
       }
     } catch (error) {
-      self.postMessage({ type: 'error', payload: `Failed to process file ${file.name}: ${error.message}` });
+      self.postMessage({ type: 'error', payload: { message: `Failed to process file ${file.name}: ${error.message}`, fileName: file.name } });
     }
   }
 };
