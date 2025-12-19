@@ -182,6 +182,37 @@ impl TagController {
             tag: id3::Tag::new()
         }
     }
+    #[wasm_bindgen(js_name = fromPartial)]
+    pub fn from_partial(head: &[u8], tail: Option<Vec<u8>>) -> Result<TagController, JsValue> {
+        let mut cursor = std::io::Cursor::new(head);
+        match id3::Tag::read_from2(&mut cursor) {
+            Ok(tag) => {
+                return Ok(TagController {
+                    tag
+                });
+            },
+            Err(error) => {
+                match error.kind {
+                    id3::ErrorKind::NoTag => {
+                        // continue to check tail
+                    },
+                    _ => {
+                        return Err(to_error(error))
+                    }
+                }
+            }
+        }
+
+        if let Some(tail) = tail {
+            let mut cursor = std::io::Cursor::new(tail);
+            if let Ok(v1_tag) = id3::v1::Tag::read_from(&mut cursor) {
+                let tag: id3::Tag = v1_tag.into();
+                return Ok(TagController { tag });
+            }
+        }
+
+        Ok(TagController::new())
+    }
     pub fn from(buffer: &[u8]) -> Result<TagController, JsValue> {
         let mut cursor = std::io::Cursor::new(buffer);
         match id3::Tag::read_from2(&mut cursor) {
