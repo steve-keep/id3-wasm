@@ -6,19 +6,16 @@
   "exports": {
     ".": {
       "node": {
-        "import": "./test-build/id3_wasm.js",
-        "types": "./test-build/id3_wasm.d.ts"
+        "import": "./wasm/id3_wasm.js",
+        "types": "./wasm/id3_wasm.d.ts"
       },
       "default": {
-        "import": "./dist/index.js",
-        "types": "./dist/index.d.ts"
+        "import": "./index.js",
+        "types": "./index.d.ts"
       }
     }
   },
-  "scripts": {
-    "lint": "eslint src/**/*.ts",
-    "build:ts": "esbuild src/index.ts --bundle --outfile=dist/index.js --format=esm --platform=browser --external:*.wasm && tsc --emitDeclarationOnly"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/steve-keep/id3-wasm.git"
@@ -35,17 +32,8 @@
   "homepage": "https://github.com/steve-keep/id3-wasm#readme",
   "files": [
     "wasm",
-    "dist",
-    "test-build"
+    "index.js",
+    "index.d.ts"
   ],
-  "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^8.50.0",
-    "@typescript-eslint/parser": "^8.50.0",
-    "esbuild": "^0.27.2",
-    "eslint": "^8.57.1",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-promise": "^7.2.1",
-    "typedoc": "^0.25.13",
-    "typescript": "^5.9.3"
-  }
+  "devDependencies": {}
 }
