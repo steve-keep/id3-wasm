@@ -1,0 +1,12 @@
+{
+  "name": "rust",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "build": "pnpm run clean && wasm-pack build --target web --out-dir ./dist"
+  },
+  "devDependencies": {
+    "wasm-pack": "^0.12.1"
+  }
+}

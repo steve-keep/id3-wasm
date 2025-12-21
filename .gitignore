@@ -1,7 +1,19 @@
+# Rust & Wasm artifacts
 /target
+/packages/rust/target/
+/packages/rust/pkg/
+/packages/rust/dist/
+/packages/lib/wasm/
 **/*.rs.bk
-Cargo.lock
-bin/
-package/wasm
 wasm-pack.log
-node_modules
+
+# Node dependencies & build outputs
+node_modules/
+pnpm-lock.yaml
+/packages/demo/dist/
+
+# Log files
+*.log
+
+# OS generated files
+.DS_Store
