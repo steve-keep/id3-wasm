@@ -36,7 +36,7 @@ jobs:
       run: pnpm install
 
     - name: Build Wasm and Website
-      run: pnpm --filter demo build --prod
+      run: pnpm --filter demo build
 
     - name: Deploy website
       uses: peaceiris/actions-gh-pages@v4
