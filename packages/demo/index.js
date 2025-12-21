@@ -109,7 +109,7 @@ startButton.addEventListener('click', async () => {
         };
 
         for (let i = 0; i < numWorkers; i++) {
-          const worker = new Worker(new URL('worker.js', import.meta.url));
+          const worker = new Worker(new URL('worker.js', import.meta.url), { type: 'module' });
           workers.push(worker);
 
           worker.onmessage = (event) => {

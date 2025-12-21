@@ -13,6 +13,10 @@ node_modules/
 
 # Log files
 *.log
+www_dev.log
+
+# Test results
+/packages/demo/test-results/
 
 # OS generated files
 .DS_Store
