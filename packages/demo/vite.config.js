@@ -31,6 +31,11 @@ export default defineConfig(({ mode }) => {
         'top-level-await': true,
       },
     },
+    resolve: {
+      alias: {
+        'id3-wasm': path.resolve(__dirname, '../lib/index.js'),
+      },
+    },
   };
 
   if (mode === 'production') {
