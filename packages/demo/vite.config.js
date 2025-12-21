@@ -24,11 +24,19 @@ export default defineConfig(({ mode }) => {
     },
     worker: {
       format: 'es',
-      plugins: () => plugins,
+      plugins: () => [
+        wasm(),
+        topLevelAwait()
+      ],
     },
     esbuild: {
       supported: {
         'top-level-await': true,
+      },
+    },
+    resolve: {
+      alias: {
+        'id3-wasm': path.resolve(__dirname, '../lib/wasm/id3_wasm.js'),
       },
     },
   };

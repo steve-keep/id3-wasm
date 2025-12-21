@@ -15,7 +15,10 @@
       }
     }
   },
-  "scripts": {},
+  "scripts": {
+    "clean": "rm -rf ./wasm",
+    "build": "pnpm run clean && pnpm --filter rust build && mv ../rust/dist ./wasm"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/steve-keep/id3-wasm.git"
