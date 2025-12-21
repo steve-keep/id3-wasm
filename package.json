@@ -2,7 +2,7 @@
   "name": "id3-wasm-monorepo",
   "private": true,
   "scripts": {
-    "build": "pnpm --filter id3-wasm build",
+    "build": "pnpm --filter ...demo build",
     "test": "pnpm --filter demo test",
     "start": "pnpm --filter demo start"
   },
