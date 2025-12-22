@@ -6,6 +6,7 @@
 /packages/lib/wasm/
 **/*.rs.bk
 wasm-pack.log
+.cargo-ok
 
 # Node dependencies & build outputs
 node_modules/

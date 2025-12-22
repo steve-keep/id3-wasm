@@ -1,75 +1,27 @@
-# id3-wasm
-Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.
+# Rust Crate for `id3-wasm`
 
-![Test](https://github.com/steve-keep/id3-wasm/workflows/Test/badge.svg?branch=master)
-![GitHub Pages](https://github.com/steve-keep/id3-wasm/workflows/GitHub%20Pages/badge.svg?event=push)
+This directory contains the core Rust crate that powers the `id3-wasm` library.
 
-![Screenshot of id3-wasm in action.](https://raw.githubusercontent.com/steve-keep/id3-wasm/master/demo-cropped.gif)
+## Overview
 
-## Demos
-Demos can be found on [id3-wasm's website](https://steve-keep.github.io/id3-wasm/).
+This crate is responsible for all the low-level ID3 tag parsing and manipulation. It is built upon the excellent [`id3` crate](https://crates.io/crates/id3) and exposes a simplified API for common operations, which is then compiled to WebAssembly.
 
-## Usage
+The primary interface is exposed through a `TagController` struct, which is designed to be used via `wasm-bindgen` from JavaScript.
 
-### Getting metadata
-```javascript
-import { getMetadataFrom } from 'id3-wasm'
+## Building
 
-const url = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_picture_by_Florrie_Forde.mp3'
+This crate is not intended to be built or used as a standalone package. It is an integral part of the `id3-wasm` monorepo.
 
-await fetch(url).then(async response => {
-  const stream = response.body
-  const metadata = await getMetadataFrom(stream)
-  expectToContain(metadata, {
-    artist: "Florrie Forde\r",
-    title: "'Tis a faded picture\r",
-    album: "Edison Amberol: 12255\r"
-  })
+To build the crate, you should use the root-level build command, which orchestrates the entire process of compiling the Rust code to WebAssembly and integrating it into the final JavaScript package.
 
-  // IMPORTANT! Always remember to destroy the metadata
-  // after you've got the properties you need,
-  // else you'll get a memory leak!
-  metadata.free()
-})
-```
+For detailed instructions on how to build and test the entire project, please refer to the main [README.md](../../README.md) at the root of the repository.
 
-### Modifying audio metadata
-```javascript
-import { createTagControllerFrom } from 'id3-wasm'
+### Dependencies
 
-await fetch('https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_picture_by_Florrie_Forde.mp3').then(async response => {
-  const buffer = new Uint8Array(await response.arrayBuffer())
-
-  const tagController = await createTagControllerFrom(buffer)
-
-  // Getting metadata using the controller API
-  const metadata = tagController.getMetadata()
-  expectToContain(metadata, {
-    artist: 'Florrie Forde\r',
-    title: '\'Tis a faded picture\r',
-    album: 'Edison Amberol: 12255\r'
-  })
-  metadata.free()
-
-  // Changing the metadata
-  tagController.setYear(1910)
-
-  // Getting the resulting Uint8Array (the tagged file's buffer),
-  // which can be a used with the File System API or for a download
-  const taggedBuffer = tagController.putTagInto(buffer)
-  expectToEqual(taggedBuffer.length > 0, true)
-
-  // IMPORTANT! Don't forget to destroy the tagController!
-  tagController.free()
-})
-```
-
-## API
-See [generated docs](https://steve-keep.github.io/id3-wasm/docs/).
+-   `id3`: For the core ID3 logic.
+-   `wasm-bindgen`: For generating the JavaScript bindings for the WebAssembly module.
+-   `js-sys`: To interact with JavaScript types.
 
 ## Contributing
-Clone this repository. You should setup & build the Rust project by running `make setup` and `make build`.
-To run the examples locally, you need to `cd` into `www` and run `npm start`.
-Now you should be able to access the examples at `localhost:8080`.
 
-If you have any questions, feel free to open an issue!
+If you wish to contribute to the Rust portion of the codebase, please follow the development and testing workflow outlined in the root `README.md`. All changes to this crate should be tested through the main project's testing suite.

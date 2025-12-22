@@ -1,75 +1,117 @@
 # id3-wasm
-Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.
 
-![Test](https://github.com/steve-keep/id3-wasm/workflows/Test/badge.svg?branch=master)
-![GitHub Pages](https://github.com/steve-keep/id3-wasm/workflows/GitHub%20Pages/badge.svg?event=push)
+A high-performance library for reading and writing ID3 tags, powered by Rust and WebAssembly.
 
-![Screenshot of id3-wasm in action.](https://raw.githubusercontent.com/steve-keep/id3-wasm/master/demo-cropped.gif)
+This package provides the core JavaScript interface for the `id3-wasm` module. For a live demonstration of its capabilities, please see the [demo application](https://steve-keep.github.io/id3-wasm/).
 
-## Demos
-Demos can be found on [id3-wasm's website](https://steve-keep.github.io/id3-wasm/).
+## Installation
+
+```bash
+pnpm add id3-wasm
+```
+or
+```bash
+npm install id3-wasm
+```
 
 ## Usage
 
-### Getting metadata
+The library can be used in both Node.js and modern browsers. It's fully compatible with Web Workers.
+
+### Initializing the Module
+
+Before using any functions, you must initialize the WebAssembly module. In a browser environment with a bundler like Vite, this is often handled automatically. In Node.js or a test environment, you may need to do it explicitly.
+
 ```javascript
-import { getMetadataFrom } from 'id3-wasm'
+import init from 'id3-wasm';
 
-const url = 'https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_picture_by_Florrie_Forde.mp3'
-
-await fetch(url).then(async response => {
-  const stream = response.body
-  const metadata = await getMetadataFrom(stream)
-  expectToContain(metadata, {
-    artist: "Florrie Forde\r",
-    title: "'Tis a faded picture\r",
-    album: "Edison Amberol: 12255\r"
-  })
-
-  // IMPORTANT! Always remember to destroy the metadata
-  // after you've got the properties you need,
-  // else you'll get a memory leak!
-  metadata.free()
-})
+// This returns a promise that resolves when the Wasm module is ready.
+await init();
 ```
 
-### Modifying audio metadata
+### Reading Metadata from an MP3 File
+
+To read ID3 tags, create a `TagController` from a file buffer (`Uint8Array`) and then get the metadata from it.
+
 ```javascript
-import { createTagControllerFrom } from 'id3-wasm'
+import init, { TagController } from 'id3-wasm';
+import * as fs from 'fs/promises';
 
-await fetch('https://upload.wikimedia.org/wikipedia/commons/b/bd/%27Tis_a_faded_picture_by_Florrie_Forde.mp3').then(async response => {
-  const buffer = new Uint8Array(await response.arrayBuffer())
+// Initialize the Wasm module
+await init();
 
-  const tagController = await createTagControllerFrom(buffer)
+// Example of reading a file in Node.js
+const buffer = await fs.readFile('path/to/your/song.mp3');
+const uint8Array = new Uint8Array(buffer);
 
-  // Getting metadata using the controller API
-  const metadata = tagController.getMetadata()
-  expectToContain(metadata, {
-    artist: 'Florrie Forde\r',
-    title: '\'Tis a faded picture\r',
-    album: 'Edison Amberol: 12255\r'
-  })
-  metadata.free()
+let tagController;
+let metadata;
+try {
+  tagController = TagController.from(uint8Array);
+  metadata = tagController.getMetadata();
 
-  // Changing the metadata
-  tagController.setYear(1910)
+  console.log('Title:', metadata.title);
+  console.log('Artist:', metadata.artist);
+  console.log('Album:', metadata.album);
+  console.log('Year:', metadata.year);
 
-  // Getting the resulting Uint8Array (the tagged file's buffer),
-  // which can be a used with the File System API or for a download
-  const taggedBuffer = tagController.putTagInto(buffer)
-  expectToEqual(taggedBuffer.length > 0, true)
+} catch (e) {
+  console.error('Failed to read metadata:', e);
+} finally {
+  // IMPORTANT: The objects hold pointers to Wasm memory.
+  // You MUST free them when you are done to avoid memory leaks.
+  if (metadata) {
+    metadata.free();
+  }
+  if (tagController) {
+    tagController.free();
+  }
+}
+```
 
-  // IMPORTANT! Don't forget to destroy the tagController!
-  tagController.free()
-})
+### Modifying Metadata
+
+The `TagController` also allows you to modify tags and write them back into a new buffer.
+
+```javascript
+import init, { TagController } from 'id3-wasm';
+import * as fs from 'fs/promises';
+
+await init();
+
+const buffer = await fs.readFile('path/to/your/song.mp3');
+const uint8Array = new Uint8Array(buffer);
+
+let tagController;
+try {
+  tagController = TagController.from(uint8Array);
+
+  // Change the metadata
+  tagController.setTitle('A New Title');
+  tagController.setArtist('A New Artist');
+  tagController.setYear(2024);
+
+  // The putTagInto method returns a *new* buffer with the updated tags.
+  const newBuffer = tagController.putTagInto(uint8Array);
+
+  // You can now save the newBuffer to a file
+  await fs.writeFile('path/to/your/new-song.mp3', newBuffer);
+  console.log('New file saved!');
+
+} catch (e) {
+  console.error('Failed to modify metadata:', e);
+} finally {
+  // IMPORTANT: The tagController also needs to be freed.
+  if (tagController) {
+    tagController.free();
+  }
+}
 ```
 
 ## API
-See [generated docs](https://steve-keep.github.io/id3-wasm/docs/).
+
+The full API is exposed via the `TagController` and `Metadata` classes. Refer to the TypeScript definitions in `index.d.ts` for a complete list of available methods and properties.
 
 ## Contributing
-Clone this repository. You should setup & build the Rust project by running `make setup` and `make build`.
-To run the examples locally, you need to `cd` into `www` and run `npm start`.
-Now you should be able to access the examples at `localhost:8080`.
 
-If you have any questions, feel free to open an issue!
+Interested in contributing? Please refer to the main [README.md](../../README.md) at the root of the repository for setup, build, and testing instructions.
