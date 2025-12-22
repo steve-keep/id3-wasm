@@ -1,0 +1,50 @@
+name: Tag Release
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tag:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Fetch all history for all tags and branches
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Bump version and create tag
+        run: |
+          # Pull latest changes from main to prevent conflicts
+          git pull origin main --rebase
+
+          # Bump the patch version using pnpm
+          cd packages/lib
+          pnpm version patch --no-git-tag-version
+          cd ../..
+
+          # Get the new version from package.json
+          new_version=$(jq -r .version packages/lib/package.json)
+
+          # Commit the version bump
+          git add packages/lib/package.json
+          git commit -m "chore(release): bump version to $new_version [skip ci]"
+
+          # Create and push the new tag
+          new_tag="v$new_version"
+          git tag $new_tag
+          git push origin main
+          git push origin $new_tag
