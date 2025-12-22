@@ -1,4 +1,4 @@
-name: Tag Release
+name: Release
 
 on:
   push:
@@ -51,3 +51,10 @@ jobs:
           git tag $new_tag
           git push origin main
           git push origin $new_tag
+
+  publish:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    needs: tag
+    permissions:
+      id-token: write
+    uses: ./.github/workflows/publish.yml
