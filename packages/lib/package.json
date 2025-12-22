@@ -10,14 +10,15 @@
         "types": "./wasm/id3_wasm.d.ts"
       },
       "default": {
-        "import": "./index.js",
-        "types": "./index.d.ts"
+        "import": "./dist/index.js",
+        "types": "./dist/index.d.ts"
       }
     }
   },
   "scripts": {
-    "clean": "rm -rf ./wasm",
-    "build": "pnpm run clean && pnpm --filter rust build && mv ../rust/dist ./wasm"
+    "clean": "rm -rf ./wasm ./dist",
+    "build": "pnpm run clean && pnpm --filter rust build && mv ../rust/dist ./wasm && tsc",
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",
@@ -35,8 +36,10 @@
   "homepage": "https://github.com/steve-keep/id3-wasm#readme",
   "files": [
     "wasm",
-    "index.js",
-    "index.d.ts"
+    "dist"
   ],
-  "devDependencies": {}
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^1.6.1"
+  }
 }
