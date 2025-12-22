@@ -1,6 +1,6 @@
 {
   "name": "id3-wasm",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.",
   "type": "module",
   "exports": {
@@ -18,7 +18,8 @@
   "scripts": {
     "clean": "rm -rf ./wasm ./dist",
     "build": "pnpm run clean && pnpm --filter rust build && mv ../rust/dist ./wasm && tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "publish:npm": "pnpm publish --no-git-checks"
   },
   "repository": {
     "type": "git",

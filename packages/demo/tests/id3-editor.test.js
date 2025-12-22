@@ -15,12 +15,12 @@ const expectedMetadata = {
   "album": "Edison Amberol: 12255\r",
 };
 
-beforeAll(async () => {
+beforeAll(() => {
   // In a Node.js test environment, we can't rely on Vite's URL resolution for wasm files.
   // Instead, we read the wasm file from the filesystem and pass the buffer to the init function.
   const wasmPath = path.join(__dirname, '../../lib/wasm/id3_wasm_bg.wasm');
   const wasmBuffer = fs.readFileSync(wasmPath);
-  await id3Wasm.default(wasmBuffer);
+  id3Wasm.initSync({ module: wasmBuffer });
 });
 
 describe('Reading a tag', () => {

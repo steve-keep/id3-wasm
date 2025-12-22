@@ -1,0 +1,76 @@
+name: Publish to npm
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        # To commit back the version bump
+        fetch-depth: 0
+
+    - name: Install Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '22'
+        registry-url: 'https://registry.npmjs.org'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 9
+
+    - name: Install stable Rust and wasm-pack
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        default: true
+        override: true
+
+    - name: Setup wasm-pack
+      uses: jetli/wasm-pack-action@v0.3.0
+
+    - name: Install dependencies
+      run: pnpm install
+
+    - name: Build
+      run: pnpm build
+
+    - name: Install Playwright browsers
+      run: npx playwright install --with-deps
+
+    - name: Run unit tests
+      run: pnpm test
+
+    - name: Run E2E tests
+      run: |
+        pnpm start > /dev/null 2>&1 &
+        pnpm run test:e2e
+
+    - name: Configure git
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Bump version and push
+      id: version_bump
+      run: |
+        cd packages/lib
+        pnpm version patch --no-git-tag-version
+        echo "::set-output name=version::$(jq -r .version package.json)"
+        git add package.json
+        git commit -m "chore(release): bump version to $(jq -r .version package.json) [skip ci]"
+        git push
+
+    - name: Publish to npm
+      run: pnpm --filter id3-wasm publish:npm
