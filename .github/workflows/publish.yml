@@ -1,16 +1,17 @@
-name: Publish to npm
+name: Publish Package
 
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
 
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -20,7 +21,6 @@ jobs:
       with:
         node-version: '22'
         registry-url: 'https://registry.npmjs.org'
-        provenance: true
 
     - name: Install pnpm
       uses: pnpm/action-setup@v4
