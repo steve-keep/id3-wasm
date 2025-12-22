@@ -1,46 +1,46 @@
 import { test, expect } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
-test('should not have worker initialization error', async ({ page }) => {
-  let workerError = null;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-  // Listen for the 'worker' event to get a handle to the worker
-  page.on('worker', async (worker) => {
-    // Listen for console events within the worker
-    worker.on('console', (msg) => {
-      if (msg.type() === 'error') {
-        const text = msg.text();
-        if (text.includes("Cannot use 'import.meta' outside a module") || text.includes("importScripts")) {
-           workerError = text;
-        }
-      }
-    });
-  });
-
-
+test('should correctly display artist and album metadata', async ({ page }) => {
   // Navigate to the app
-  await page.goto('http://localhost:8080');
+  await page.goto('/');
 
-  // Mock the directory picker to return a fake handle with one file
+  // Mock the directory picker to return a file handle that fetches the test MP3
   await page.evaluate(() => {
     window.showDirectoryPicker = async () => {
       return {
         values: async function*() {
           yield {
             kind: 'file',
-            name: 'fake.mp3',
-            getFile: async () => new File([''], 'fake.mp3', { type: 'audio/mpeg' })
+            name: 'tis-a-faded-picture.mp3',
+            getFile: async () => {
+              const response = await fetch('/tis-a-faded-picture.mp3');
+              const blob = await response.blob();
+              return new File([blob], 'tis-a-faded-picture.mp3', { type: 'audio/mpeg' });
+            },
           };
-        }
+        },
       };
     };
   });
 
-  // Click the start button, which will attempt to create workers
+  // Click the start button
+  await page.waitForSelector('#start-button', { state: 'visible' });
   await page.click('#start-button');
 
-  // Wait for a short period to allow the worker to be created and potentially log an error
-  await page.waitForTimeout(2000);
+  // Wait for the table row to appear
+  const row = page.locator('#metadata-table tbody tr');
+  await row.waitFor();
 
-  // The test will fail if the error is found
-  expect(workerError).toBeNull();
+  // Check the artist and album in the table
+  const artist = await row.locator('td:nth-child(2)').textContent();
+  const album = await row.locator('td:nth-child(3)').textContent();
+
+  expect(artist).toBe('Florrie Forde\r');
+  expect(album).toBe('Edison Amberol: 12255\r');
 });

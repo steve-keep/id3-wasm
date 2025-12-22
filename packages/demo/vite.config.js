@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, searchForWorkspaceRoot } from 'vite';
 import wasm from 'vite-plugin-wasm';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import { fileURLToPath } from 'url';
@@ -17,7 +17,11 @@ export default defineConfig(({ mode }) => {
     plugins,
     server: {
       port: 8080,
+      fs: {
+        allow: [searchForWorkspaceRoot(process.cwd()), 'tests']
+      }
     },
+    publicDir: 'tests',
     build: {
       outDir: 'dist',
       target: 'esnext',

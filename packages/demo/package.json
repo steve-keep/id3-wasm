@@ -4,6 +4,7 @@
   "scripts": {
     "start": "vite",
     "test": "vitest run",
+    "test:e2e": "playwright test",
     "build": "vite build"
   },
   "dependencies": {

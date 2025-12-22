@@ -18,7 +18,6 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['tests/**/*.{test,spec}.js'],
-    exclude: ['tests/**/*.spec.js'],
+    include: ['tests/**/*.test.js'],
   },
 });

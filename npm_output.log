@@ -1,12 +1,13 @@
 
-> start
+> id3-wasm-monorepo@ start /app
+> pnpm --filter demo start
+
+
+> demo@ start /app/packages/demo
 > vite
 
-Port 8080 is in use, trying another one...
-Port 8081 is in use, trying another one...
-Port 8082 is in use, trying another one...
 
-  VITE v7.3.0  ready in 272 ms
+  VITE v5.4.21  ready in 331 ms
 
-  ➜  Local:   http://localhost:8083/
+  ➜  Local:   http://localhost:8080/
   ➜  Network: use --host to expose
