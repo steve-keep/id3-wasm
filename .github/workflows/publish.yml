@@ -17,6 +17,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '22'
+        registry-url: 'https://registry.npmjs.org'
         provenance: true
 
     - name: Install pnpm
@@ -53,5 +54,6 @@ jobs:
 
     - name: Publish to npm
       run: |
+        npm config ls -l
         cd packages/lib
         pnpm publish --no-git-checks
