@@ -54,11 +54,14 @@ jobs:
         pnpm start > /dev/null 2>&1 &
         pnpm run test:e2e
 
+    - name: Build id3-wasm package
+      run: pnpm --filter id3-wasm build
+
     - name: Verify build artifacts
       run: |
         ls -la packages/lib
-        ls -la packages/lib/wasm/ || echo "wasm directory missing!"
-        ls -la packages/lib/dist/ || echo "dist directory missing!"
+        ls -la packages/lib/wasm/
+        ls -la packages/lib/dist/
 
     - name: Publish to npm
       run: |
