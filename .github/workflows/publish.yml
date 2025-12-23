@@ -43,9 +43,6 @@ jobs:
     - name: Build
       run: pnpm build
 
-    - name: Copy Wasm artifacts to lib package
-      run: cp -r packages/rust/dist/* packages/lib/wasm/
-
     - name: Install Playwright browsers
       run: npx playwright install --with-deps
 
