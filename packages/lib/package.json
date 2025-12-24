@@ -41,6 +41,7 @@
     "README.md"
   ],
   "devDependencies": {
+    "tar": "^7.5.2",
     "typescript": "^5.9.3",
     "vitest": "^1.6.1"
   }
