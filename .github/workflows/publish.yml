@@ -59,11 +59,11 @@ jobs:
 
     - name: Verify build artifacts
       run: |
+        ls -la
         ls -la packages/lib
         ls -la packages/lib/wasm/
         ls -la packages/lib/dist/
 
     - name: Publish to npm
-      run: |
-        cd packages/lib
-        NODE_AUTH_TOKEN="" npm publish --provenance --access public
+      working-directory: packages/lib
+      run: NODE_AUTH_TOKEN="" npm publish --provenance --access public
