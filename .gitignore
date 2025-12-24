@@ -3,7 +3,6 @@
 /packages/rust/target/
 /packages/rust/pkg/
 /packages/rust/dist/
-/packages/lib/wasm/
 **/*.rs.bk
 wasm-pack.log
 .cargo-ok
