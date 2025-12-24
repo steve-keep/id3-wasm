@@ -1,6 +1,6 @@
 {
   "name": "id3-wasm",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Insanely quick ID3 reading & writing for JavaScript powered by WebAssembly.",
   "type": "module",
   "exports": {

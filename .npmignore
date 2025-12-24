@@ -1,0 +1,22 @@
+# This file is for the `npm` client. It prevents `npm` from using the
+# root `.gitignore` file, which incorrectly excludes the `wasm` artifacts.
+# The rules are written relative to the root for the `id3-wasm` package.
+
+# Ignore the library's source and test files
+/packages/lib/src/
+/packages/lib/tests/
+
+# Ignore the library's config files
+/packages/lib/vitest.config.ts
+/packages/lib/tsconfig.json
+/packages/lib/.gitignore
+
+# Ignore the demo app's build output and test results
+/packages/demo/dist/
+/packages/demo/test-results/
+
+# Ignore node_modules, logs, and other common artifacts
+node_modules/
+*.log
+www_dev.log
+.DS_Store
