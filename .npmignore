@@ -1,0 +1,19 @@
+# Ignore files and directories that should never be published.
+
+# Git
+.git
+.github
+
+# OS-generated
+.DS_Store
+
+# Logs
+*.log
+wasm-pack.log
+
+# Rust build artifacts
+/target
+.cargo-ok
+
+# Test results
+/packages/demo/test-results/

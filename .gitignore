@@ -10,6 +10,7 @@ wasm-pack.log
 # Node dependencies & build outputs
 node_modules/
 /packages/demo/dist/
+/packages/lib/wasm/
 
 # Log files
 *.log

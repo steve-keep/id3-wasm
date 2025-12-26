@@ -18,9 +18,9 @@ jobs:
         node-version: '22'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@v2
+      uses: pnpm/action-setup@v4
       with:
-        version: 9
+        version: 10.20.0
 
     - name: Install stable Rust and wasm-pack
       uses: actions-rs/toolchain@v1
