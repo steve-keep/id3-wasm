@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "pnpm --filter demo... build",
-    "test": "pnpm --filter demo test",
+    "test": "pnpm --recursive test",
     "test:e2e": "pnpm --filter demo test:e2e",
     "start": "pnpm --filter demo start"
   },
